@@ -83,6 +83,13 @@
 
   .cursor-spark{ position:fixed; pointer-events:none; z-index:60; border-radius:50%; }
 
+  #vignette{
+    position:fixed; inset:0; z-index:2; pointer-events:none;
+    background:
+      radial-gradient(ellipse 90% 70% at 50% 50%, rgba(0,0,0,0) 55%, rgba(4,4,9,0.55) 100%),
+      linear-gradient(180deg, rgba(4,4,9,0.35) 0%, rgba(4,4,9,0) 14%, rgba(4,4,9,0) 82%, rgba(4,4,9,0.5) 100%);
+  }
+
   .wrap{
     position:relative; z-index:1;
     max-width:760px; margin:0 auto;
@@ -186,10 +193,10 @@
   .week.open .chevron{ transform: rotate(90deg); color: var(--gold);}
 
   .wk-body{
-    max-height:0; overflow:hidden; transition: max-height .4s cubic-bezier(.2,.8,.2,1);
+    max-height:0; overflow:hidden; transition: max-height .45s cubic-bezier(.2,.8,.2,1);
     padding: 0 16px;
   }
-  .week.open .wk-body{ padding-bottom: 14px; }
+  .week.open .wk-body{ max-height: 900px; padding-bottom: 14px; }
   .wk-note{ font-size:12px; color:var(--muted); font-style:italic; margin: 0 0 10px; padding-left:2px; }
   .sec-list{ display:flex; flex-direction:column; gap:2px; }
   .sec-item{
@@ -301,6 +308,8 @@
     </svg>
   </div>
 </div>
+
+<div id="vignette"></div>
 
 <div id="toast-stack"></div>
 
@@ -753,6 +762,32 @@ function initBackground(){
     ctx.restore();
   }
 
+  // fireflies (slow glowing ambient dots, lower half of screen)
+  const fireflies = Array.from({length: 14}, ()=> spawnFirefly());
+  function spawnFirefly(){
+    return {
+      x: Math.random()*w, y: h*0.45 + Math.random()*h*0.55,
+      vx:(Math.random()-0.5)*0.25, vy:(Math.random()-0.5)*0.2,
+      phase: Math.random()*Math.PI*2, speed: 0.015+Math.random()*0.02,
+      hue: Math.random()>0.5 ? "244,242,255" : "242,193,78"
+    };
+  }
+  function drawFireflies(){
+    fireflies.forEach(f=>{
+      f.x += f.vx; f.y += f.vy; f.phase += f.speed;
+      if(f.x<0) f.x=w; if(f.x>w) f.x=0; if(f.y<h*0.4) f.y=h*0.4; if(f.y>h) f.y=h;
+      const glow = 0.25 + Math.sin(f.phase)*0.25;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, glow);
+      const grad = ctx.createRadialGradient(f.x,f.y,0,f.x,f.y,7);
+      grad.addColorStop(0, `rgba(${f.hue},0.9)`);
+      grad.addColorStop(1, `rgba(${f.hue},0)`);
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.arc(f.x,f.y,7,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+    });
+  }
+
   // shooting stars
   let shootingStars = [];
   function maybeSpawnShootingStar(){
@@ -838,6 +873,7 @@ function initBackground(){
 
     maybeSpawnShootingStar();
     drawShootingStars();
+    drawFireflies();
 
     // petals
     if(!reduced){
