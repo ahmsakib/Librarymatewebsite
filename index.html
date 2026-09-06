@@ -667,24 +667,24 @@ S48:{n:"Prompt Engineering & GenAI For Data Analytics", v:[
 };
 
 const WEEKS = [
-  {id:"w1", dates:"Sep 4 – Sep 6", status:"normal", secs:["S1","S2"], note:"Also start S3 (Complete Python) — it's long, you'll continue it next week."},
-  {id:"w2", dates:"Sep 11 – Sep 13", status:"normal", secs:["S3","S4"]},
-  {id:"w3", dates:"Sep 18 – Sep 20", status:"normal", secs:["S5","S6"], note:"Also start S7."},
-  {id:"w4", dates:"Sep 25 – Sep 27", status:"normal", secs:["S7","S8"], note:"Also start S9."},
-  {id:"w5", dates:"Oct 2 – Oct 4", status:"normal", secs:["S9","S10","S11"], note:"Also start S12 — the big one, continues 2 more weeks. Milestone: Python & Stats done!", milestone:"Python & Stats Foundations"},
-  {id:"w6", dates:"Oct 9 – Oct 11", status:"bump", secs:["S12"], note:"Deep in S12 (MS SQL Server Basics) — it's huge, tackle as many videos as you can this week."},
-  {id:"w7", dates:"Oct 16 – Oct 18", status:"normal", secs:["S13","S14","S15"], note:"Finish any remaining S12 videos, then S13-S15. Also start S16."},
-  {id:"w8", dates:"Oct 23 – Oct 25", status:"normal", secs:["S16","S17","S18","S19","S20"], note:"Milestone: SQL complete!", milestone:"SQL"},
-  {id:"w9", dates:"Oct 30 – Nov 1", status:"normal", secs:["S21","S22"], note:"Also start S23."},
-  {id:"w10", dates:"Nov 6 – Nov 8", status:"light", secs:["S23"]},
-  {id:"w11", dates:"Nov 13 – Nov 15", status:"normal", secs:["S24","S25","S26"], note:"Milestone: Power BI core complete!", milestone:"Power BI Core"},
-  {id:"w12", dates:"Nov 20 – Nov 22", status:"normal", secs:["S27","S28"], note:"Also start S29."},
-  {id:"w13", dates:"Nov 27 – Nov 29", status:"normal", secs:["S29","S30","S31"], note:"Milestone: Excel complete!", milestone:"Excel"},
-  {id:"w14", dates:"Dec 4 – Dec 6", status:"light", secs:["S32","S33"]},
-  {id:"w15", dates:"Dec 11 – Dec 13", status:"light", secs:["S34","S35","S36"], note:"Milestone: Tableau complete!", milestone:"Tableau"},
-  {id:"w16", dates:"Dec 18 – Dec 20", status:"bump", secs:["S37","S38","S39","S40"], note:"Also start S41."},
-  {id:"w17", dates:"Dec 25 – Dec 27", status:"bump", secs:["S41","S42"], note:"Also start S43."},
-  {id:"wb", dates:"Dec 28 – Dec 30", status:"final", secs:["S43","S44","S45","S46","S47","S48"], note:"Final buffer — finish strong! Milestone: full course complete.", milestone:"Full Course"},
+  {id:"w1", dates:"Sep 4 – Sep 6", status:"bump", secs:["S1","S2","S3"], note:"Heaviest week of the whole plan (~7.7h) — it's the intro plus all of Complete Python. Front-loading this now means smoother 5h weeks after."},
+  {id:"w2", dates:"Sep 11 – Sep 13", status:"light", secs:["S4","S5"]},
+  {id:"w3", dates:"Sep 18 – Sep 20", status:"normal", secs:["S6","S7"]},
+  {id:"w4", dates:"Sep 25 – Sep 27", status:"normal", secs:["S8","S9","S10","S11"], note:"Milestone: Python & Stats done!", milestone:"Python & Stats Foundations"},
+  {id:"w5", dates:"Oct 2 – Oct 4", status:"bump", secs:["S12"], note:"The other big one (~9h) — Microsoft SQL Server Basics, all 47 videos. Nothing else scheduled this week, just this."},
+  {id:"w6", dates:"Oct 9 – Oct 11", status:"normal", secs:["S13","S14","S15","S16","S17","S18"]},
+  {id:"w7", dates:"Oct 16 – Oct 18", status:"normal", secs:["S19","S20","S21"], note:"Milestone: SQL complete!", milestone:"SQL"},
+  {id:"w8", dates:"Oct 23 – Oct 25", status:"normal", secs:["S22","S23"]},
+  {id:"w9", dates:"Oct 30 – Nov 1", status:"light", secs:["S24","S25","S26"], note:"Milestone: Power BI core complete!", milestone:"Power BI Core"},
+  {id:"w10", dates:"Nov 6 – Nov 8", status:"normal", secs:["S27","S28","S29"]},
+  {id:"w11", dates:"Nov 13 – Nov 15", status:"normal", secs:["S30","S31","S32","S33"], note:"Milestone: Excel complete!", milestone:"Excel"},
+  {id:"w12", dates:"Nov 20 – Nov 22", status:"normal", secs:["S34","S35","S36","S37","S38","S39"]},
+  {id:"w13", dates:"Nov 27 – Nov 29", status:"normal", secs:["S40","S41"], note:"Milestone: Tableau/Snowflake/AWS complete!", milestone:"Tableau"},
+  {id:"w14", dates:"Dec 4 – Dec 6", status:"normal", secs:["S42","S43"]},
+  {id:"w15", dates:"Dec 11 – Dec 13", status:"light", secs:["S44","S45","S46","S47"]},
+  {id:"w16", dates:"Dec 18 – Dec 20", status:"light", secs:["S48"], note:"Milestone: full course complete! You're finishing with over a week to spare.", milestone:"Full Course"},
+  {id:"buf1", dates:"Dec 25 – Dec 27", status:"light", secs:[], note:"Built-in buffer — no new content. Use it to catch up if any week ran long, revisit tricky sections, or just enjoy the holidays."},
+  {id:"buf2", dates:"Dec 28 – Dec 30", status:"light", secs:[], note:"Final buffer before the Dec 30 deadline — review, polish your GitHub uploads, or rest. You've got margin to spare."},
 ];
 
 /* =================== DURATION HELPERS =================== */
@@ -794,7 +794,7 @@ function renderHero(){
 
   const doneVids = Object.keys(SECTIONS).reduce((s,id)=> s+sectionCheckedCount(id), 0);
   document.getElementById("vid-count").textContent = doneVids + "/" + ALL_VIDEO_COUNT;
-  document.getElementById("hero-sub").textContent = `48 sections · ${ALL_VIDEO_COUNT} videos · ${fmtHrs(TOTAL_SECONDS)} total · 17 weekends + final buffer`;
+  document.getElementById("hero-sub").textContent = `48 sections · ${ALL_VIDEO_COUNT} videos · ${fmtHrs(TOTAL_SECONDS)} total · ~5h/week, done by Dec 20 + buffer`;
 
   document.getElementById("streak-num").textContent = computeStreak();
 
